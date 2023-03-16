@@ -1,0 +1,19 @@
+{
+    "carros": [
+      {
+        "nome": "Volkswagen Gol",
+        "modelo": "Gol 1.6 MSI",
+        "ano": "2022"
+      },
+      {
+        "nome": "Fiat Uno",
+        "modelo": "Uno Attractive 1.0",
+        "ano": "2021"
+      },
+      {
+        "nome": "Ford Mustang",
+        "modelo": "Mustang GT Fastback",
+        "ano": "2023"
+      }
+    ]
+  }
