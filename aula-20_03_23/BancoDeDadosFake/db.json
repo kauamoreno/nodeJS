@@ -1,0 +1,24 @@
+{
+  "pessoas": [
+    {
+      "nome": "Maria",
+      "idade": 20,
+      "id": 1
+    },
+    {
+      "nome": "Elisabeth",
+      "idade": 12230,
+      "id": 2
+    },
+    {
+      "nome": "LiveServerHTML",
+      "idade": "1",
+      "id": 3
+    },
+    {
+      "nome": "LocalHostPorta7777HTML",
+      "idade": "2",
+      "id": 4
+    }
+  ]
+}

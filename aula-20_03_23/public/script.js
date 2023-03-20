@@ -1,0 +1,3 @@
+function apertar(){
+    alert('apertou')
+}

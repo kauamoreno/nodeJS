@@ -1,0 +1,18 @@
+.bemVindo {
+    background-color: rgb(105, 105, 173);
+    color: white;
+    font: normal 20pt Arial;
+    text-align: center;
+}
+
+button{
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 7px;
+}
+
+button:hover{
+    background-color: rgb(105, 105, 173);
+    color: white;
+    transition: 200ms;
+}
