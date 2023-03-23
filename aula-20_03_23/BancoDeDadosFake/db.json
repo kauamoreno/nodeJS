@@ -1,11 +1,6 @@
 {
   "pessoas": [
     {
-      "nome": "Maria",
-      "idade": 20,
-      "id": 1
-    },
-    {
       "nome": "Elisabeth",
       "idade": 12230,
       "id": 2
