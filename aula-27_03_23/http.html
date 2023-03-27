@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP</title>
+</head>
+<body>
+    <form>
+        <label for="">ID</label>
+        <input type="text" id="id"><br><br>
+        
+        <label for="">Nome</label>
+        <input type="text" id="nome"><br><br>
+        
+        <label for="">Idade</label>
+        <input type="text" id="idade"><br><br>
+
+        <input type="button" value="Enviar" onclick="enviarDados()">
+        <input type="button" value="Buscar" onclick="buscarDados()">
+        <input type="button" value="Atualizar" onclick="atualizarDados()">
+        <input type="button" value="Deletar" onclick="deletarDados()">
+    </form>
+
+    <script>
+        //POST
+        function enviarDados(){
+            const nome = document.getElementById('nome').value
+            const idade = document.getElementById('idade').value
+
+            fetch('http://localhost:3000/pessoas', {
+                
+                method: "POST",
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({ nome: nome, idade: idade })
+            }).then(response => response.json())
+        }
+
+        //GET
+        function buscarDados(){
+            const id = document.getElementById('id').value
+
+            fetch(`http://localhost:3000/pessoas/${id}`, {
+                method: "GET"
+            }).then(response => response.json())
+            .then(data => {
+                document.getElementById('nome').value = data.nome
+                document.getElementById('idade').value = data.idade
+            })
+            
+        }
+
+        //DELETE
+        function deletarDados(){
+            const id = document.getElementById('id').value
+
+            fetch(`http://localhost:3000/pessoas/${id}`, {
+                method: "DELETE"
+            }).then(response => response.json())
+        }
+
+        //PUT
+        function atualizarDados(){
+            const id = document.getElementById('id').value
+            const nome = document.getElementById('nome').value
+            const idade = document.getElementById('idade').value
+            
+            fetch(`http://localhost:3000/pessoas/${id}`, {
+                method: "PUT",
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({ nome: nome, idade: idade })
+            }).then(response => response.json())
+            .then(data => {
+                document.getElementById('nome').value = data.nome
+                document.getElementById('idade').value = data.idade
+            })
+        }
+
+    </script>
+</body>
+</html>
