@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+</head>
+
+<body>
+    <h1>Formulario</h1>
+    <form>
+        <h3>Post</h3>
+        <label>CPF:</label>
+        <input type="text" id="cpfCadastro">
+        <br>
+        <label>Nome:</label>
+        <input type="text" id="nome">
+        <br>
+        <label>Idade:</label>
+        <input type="text" id="idade">
+        <br>
+        <input type="button" value="Enviar" onclick="enviarDados()">
+        <br><br>
+        <h3>Put</h3>
+        <label>ID:</label>
+        <input type="text" id="id">
+        <br>
+        <label>Nome:</label>
+        <input type="text" id="nomeAtualizar">
+        <br>
+        <label>Idade:</label>
+        <input type="text" id="idadeAtualizar">
+        <br>
+        <label>CPF:</label>
+        <input type="text" id="cpfAtualizar">
+        <br>
+        <input type="button" onclick="buscarDados()" value="Buscar">
+        <input type="button" onclick="atualizarDados()" value="Atualizar">
+        <br>
+        <h3>Delete</h3>
+        <label>CPF:</label>
+        <input type="text" id="cpf">
+        <br>
+        <input type="button" onclick="deletarDados()" value="Deletar">
+    </form>
+</body>
+<script>
+
+    //POST
+    function enviarDados() {
+        const nome = document.getElementById('nome').value;
+        const idade = document.getElementById('idade').value;
+        const cpf = document.getElementById('cpfCadastro').value;
+
+        fetch('http://localhost:3000/pessoas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nome: nome, idade: idade, cpf: cpf })
+        }).then(response => response.json)
+    }
+
+    //GET
+    function buscarDados() {
+        const cpf = document.getElementById('cpfAtualizar').value;
+        fetch('http://localhost:3000/pessoas', {
+            method: 'GET',
+        }).then(response => response.json())
+            .then(data => {
+                const pessoaEncontrada = data.find(pessoa => pessoa.cpf === cpf)
+                if (pessoaEncontrada) {
+                    document.getElementById('nomeAtualizar').value = pessoaEncontrada.nome;
+                    document.getElementById('idadeAtualizar').value = pessoaEncontrada.idade;
+                    document.getElementById('cpfAtualizar').value = pessoaEncontrada.cpf;
+                    document.getElementById('id').value = pessoaEncontrada.id
+                } else {
+                    alert(`deu errado, o cpf ${cpf} não existe`)
+                }
+            })
+    }
+
+    //PUT
+    function atualizarDados() {
+
+        const nome = document.getElementById('nome').value;
+        const idade = document.getElementById('idade').value;
+        const cpf = document.getElementById('cpfCadastro').value;
+
+        fetch(`http://localhost:3000/pessoas/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nome: nome, idade: idade, cpf: cpf })
+        }).then(response => response.json)
+
+    }
+
+    //DELETE
+    function deletarDados(){
+        const cpf = document.getElementById('cpf').value
+
+        fetch(`http://localhost:3000/pessoas`).then(response => response.json())
+        .then(data => {
+            data.forEach(objeto => {
+                if(objeto.cpf === cpf){
+                    fetch(`http://localhost:3000/pessoas/${objeto.id}`, {
+                        method: 'DELETE'
+                    })
+                }
+            })
+        })
+    }
+
+</script>
+
+</html>

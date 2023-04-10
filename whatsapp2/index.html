@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>Bate-papo Node.js e Socket.IO</title>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="name" placeholder="Seu nome de usuário" autocomplete="off" /><br>
+      <input id="message" placeholder="Sua mensagem" autocomplete="off" /><button>Enviar</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      const nameInput = document.getElementById('name');
+      const messageInput = document.getElementById('message');
+      const messages = document.getElementById('messages');
+      let usernameSubmitted = false;
+      document.querySelector('form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = nameInput.value;
+        const message = messageInput.value;
+        if (name.trim() && message.trim()) {
+          socket.emit('chat message', { name, message });   
+          messageInput.value = '';
+          if (!usernameSubmitted) {
+            nameInput.disabled = true;
+            usernameSubmitted = true;
+          }
+        }
+      });
+      socket.on('chat message', (data) => {
+        const li = document.createElement('li');
+        li.textContent = `${data.name}: ${data.message}`;
+        messages.appendChild(li);
+      });
+    </script>
+  </body>
+</html>

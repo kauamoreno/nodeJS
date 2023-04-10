@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bate Papo Node.js e Socket.io</title>
+</head>
+
+<body>
+
+    <ul id="mensagens"></ul>
+    <form>
+        <input type="text" id="nome" placeholder="Digite o seu nome...">
+        <input type="text" id="mensagem" placeholder="Sua mensagem">
+        <button>Enviar</button>
+    </form>
+
+    <!--ADD biblioteca socket.io-->
+    <script src="../node_modules/socket.io/"></script>
+    <script>
+        /*
+        MODULOS USADOS
+        - npm i socket.io
+        - npm i express
+        - npm i http
+        */
+
+        // Criação de uma conexão com o servidor socket.io
+        // io são metodos da biblioteca que é utilizado para realizar a comunicação em tempo real
+        const socket = io();
+
+        const nameInput = document.querySelector('#nome')
+        const mensagemInput = document.querySelector('#mensagem')
+        const mensagens = document.querySelector('#mensagens')
+
+        let userNameSubmitted = false
+        //Adicionar um submit do formulario
+        //Impede que a pagina seja recarregada quando enviar mensagem
+        document.querySelector('form').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            //Obtem o nome e o usuario digitados pelo usuario
+            const name = nameInput.value
+            const message = mensagemInput.value
+
+            //Verificando se ambos os campos foram preenchidos antes de enviar
+            //Verifica se os valores são validos
+            //trim é um metodo JS
+            if(name.trim() && message.trim()){
+                socket.emit('chat message', { name, message })
+
+                //Limpa p campo de entrada
+                mensagemInput.value = ''
+
+                //Verifica se o nome do usuario foi enviado
+                if(!userNameSubmitted){
+                    nameInput.disable = true
+                    userNameSubmitted = true
+                }
+            }
+        })
+
+        //on é um metodo do objeto socket para evento de enviar
+        socket.on('chat message', (data) => {
+            
+            //Cria um elemento HTML 'li' para mensagem recebida
+            const li = document.createElement('li')
+
+            //Adiciona o texto da mensagem ao elemento 'li'
+            li.textContent = `${data.nome}: ${data.message}`
+
+            //Adiciona o elemento na lista de mensagens
+            mensagens.appendChild(li)
+        })
+
+    </script>
+
+</body>
+
+</html>
